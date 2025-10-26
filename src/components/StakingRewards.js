@@ -308,33 +308,33 @@ const StakingRewards = () => {
           </CardHeader>
           <CardBody>
             <VStack spacing={4}>
-              <HStack spacing={4} w="full">
-                <Button
-                  size="sm"
-                  onClick={() => setStakeAmount(stakeAmount + 100)}
-                >
-                  +100
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => setStakeAmount(stakeAmount + 500)}
-                >
-                  +500
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => setStakeAmount(stakeAmount + 1000)}
-                >
-                  +1000
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setStakeAmount(0)}
-                >
-                  Clear
-                </Button>
-              </HStack>
+                            <HStack spacing={4} w="full">
+                 <Button
+                   size="sm"
+                   onClick={() => setStakeAmount(0.01)}
+                 >
+                   0.01 SOL
+                 </Button>
+                 <Button
+                   size="sm"
+                   onClick={() => setStakeAmount(0.05)}
+                 >
+                   0.05 SOL
+                 </Button>
+                 <Button
+                   size="sm"
+                   onClick={() => setStakeAmount(0.1)}
+                 >
+                   0.1 SOL
+                 </Button>
+                 <Button
+                   size="sm"
+                   variant="outline"
+                   onClick={() => setStakeAmount(0)}
+                 >
+                   Clear
+                 </Button>
+               </HStack>
               <Text fontSize="lg" fontWeight="bold">
                 Stake Amount: {stakeAmount} SOL
               </Text>
