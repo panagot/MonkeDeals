@@ -67,7 +67,7 @@ const DealCard = ({ deal, onPurchase }) => {
       >
         <VStack spacing={3} align="start">
           {/* Deal Image */}
-          {deal.imageUrl && (
+          {deal.imageUrl ? (
             <Box w="full" h="200px" borderRadius="md" overflow="hidden" bg="gray.100">
               <Image 
                 src={deal.imageUrl} 
@@ -75,7 +75,15 @@ const DealCard = ({ deal, onPurchase }) => {
                 objectFit="cover"
                 w="full"
                 h="full"
+                onError={(e) => {
+                  console.error('Image failed to load:', deal.imageUrl);
+                  e.target.style.display = 'none';
+                }}
               />
+            </Box>
+          ) : (
+            <Box w="full" h="200px" borderRadius="md" bg="gray.100" display="flex" alignItems="center" justifyContent="center">
+              <Text fontSize="sm" color="gray.400">No Image</Text>
             </Box>
           )}
           
