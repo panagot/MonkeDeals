@@ -26,7 +26,14 @@
 
 import { Connection, PublicKey, Transaction, SystemProgram, Keypair } from '@solana/web3.js';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { getAssociatedTokenAddress, createInitializeMintInstruction, createAssociatedTokenAccountInstruction, createMintToInstruction, createSetAuthorityInstruction } from '@solana/spl-token';
+import { 
+  getAssociatedTokenAddress, 
+  createInitializeMintInstruction, 
+  createAssociatedTokenAccountInstruction, 
+  createMintToInstruction, 
+  createSetAuthorityInstruction, 
+  AuthorityType 
+} from '@solana/spl-token';
 
 // Smart contract configuration
 export const PROGRAM_ID = new PublicKey('2C6AZkp4iZWEJQtGQkVu8Ht6MdhysqKi8js3ekGHFbPU');

@@ -1,9 +1,9 @@
 /**
- * DEXGroup API - RESTful API for external integrations
- * This API allows third-party applications to interact with DEXGroup
+ * MonkeDeals API - RESTful API for external integrations
+ * This API allows third-party applications to interact with MonkeDeals
  */
 
-class DEXGroupAPI {
+class MonkeDealsAPI {
   constructor(baseURL = 'http://localhost:3000/api') {
     this.baseURL = baseURL;
     this.apiKey = null;
@@ -162,4 +162,4 @@ class DEXGroupAPI {
   }
 }
 
-export default DEXGroupAPI;
+export default MonkeDealsAPI;

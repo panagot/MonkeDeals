@@ -52,7 +52,7 @@ const InvestorYield = () => {
           <AlertIcon />
           <AlertTitle>Wallet Not Connected</AlertTitle>
           <AlertDescription>
-            Please connect your wallet to view your yield data.
+            Please connect your wallet to view your deal savings.
           </AlertDescription>
         </Alert>
       </Box>
@@ -64,7 +64,7 @@ const InvestorYield = () => {
       <Box maxW="7xl" mx="auto" mt={10} p={6}>
         <VStack spacing={4}>
           <Spinner size="xl" color="teal.500" />
-          <Text>Loading yield data...</Text>
+          <Text>Loading deal savings data...</Text>
         </VStack>
       </Box>
     );
@@ -76,10 +76,10 @@ const InvestorYield = () => {
         {/* Header */}
         <Box textAlign="center">
           <Heading size="2xl" color="teal.600" mb={4}>
-            Investor Yield Dashboard
+            Deal Savings Dashboard
           </Heading>
           <Text fontSize="lg" color="gray.600">
-            Track your investment yields and returns
+            Track your savings and deal statistics
           </Text>
         </Box>
 
@@ -87,13 +87,13 @@ const InvestorYield = () => {
         {portfolioData && (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-              <Text fontSize="sm" color="gray.600" mb={2}>Total Yield</Text>
+              <Text fontSize="sm" color="gray.600" mb={2}>Total Savings</Text>
               <Text fontSize="2xl" fontWeight="bold" color="green.600">
                 {portfolioData.totalYield || 0}%
               </Text>
             </Box>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-              <Text fontSize="sm" color="gray.600" mb={2}>Annual Yield</Text>
+              <Text fontSize="sm" color="gray.600" mb={2}>Avg Discount</Text>
               <Text fontSize="2xl" fontWeight="bold" color="blue.600">
                 {portfolioData.annualYield || 0}%
               </Text>

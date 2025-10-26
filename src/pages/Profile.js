@@ -7,8 +7,9 @@ const Profile = () => {
     registration: '',
     website: '',
     email: '',
-    notifyDueSoon: true,
-    notifyRepaid: true,
+    notifyNewDeals: true,
+    notifyExpiringDeals: true,
+    notifyPurchaseConfirmation: true,
   });
   const toast = useToast();
   const handleChange = (e) => {
@@ -42,8 +43,17 @@ const Profile = () => {
           </FormControl>
           <FormControl>
             <FormLabel>Notification Preferences</FormLabel>
-            <Checkbox name="notifyDueSoon" isChecked={form.notifyDueSoon} onChange={handleChange}>Remind me when invoices are due soon</Checkbox>
-            <Checkbox name="notifyRepaid" isChecked={form.notifyRepaid} onChange={handleChange}>Notify me when invoices are repaid</Checkbox>
+            <Stack spacing={2}>
+              <Checkbox name="notifyNewDeals" isChecked={form.notifyNewDeals} onChange={handleChange}>
+                Notify me about new deals in my area
+              </Checkbox>
+              <Checkbox name="notifyExpiringDeals" isChecked={form.notifyExpiringDeals} onChange={handleChange}>
+                Remind me when deals I'm interested in are expiring soon
+              </Checkbox>
+              <Checkbox name="notifyPurchaseConfirmation" isChecked={form.notifyPurchaseConfirmation} onChange={handleChange}>
+                Send purchase confirmation notifications
+              </Checkbox>
+            </Stack>
           </FormControl>
           <Button colorScheme="teal" type="submit">Save</Button>
         </Stack>

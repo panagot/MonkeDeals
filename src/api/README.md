@@ -1,7 +1,7 @@
-# DEXGroup API Documentation
+# MonkeDeals API Documentation
 
 ## Overview
-The DEXGroup API provides RESTful endpoints for external applications to integrate with the DEXGroup platform. This API enables third-party developers to access deal data, user information, and platform functionality.
+The MonkeDeals API provides RESTful endpoints for external applications to integrate with the MonkeDeals platform. This API enables third-party developers to access deal data, user information, and platform functionality.
 
 ## Base URL
 ```
@@ -103,9 +103,9 @@ GET /api/market/stats
 
 ### JavaScript/Node.js
 ```javascript
-import DEXGroupAPI from './dexgroupAPI.js';
+import MonkeDealsAPI from './dexgroupAPI.js';
 
-const api = new DEXGroupAPI();
+const api = new MonkeDealsAPI();
 api.setApiKey('your-api-key');
 
 // Get all deals
@@ -223,6 +223,6 @@ Official SDKs are available for:
 ## Support
 
 For API support and questions:
-- Email: api-support@dexgroup.com
-- Documentation: https://docs.dexgroup.com/api
-- GitHub: https://github.com/dexgroup/api-examples
+- Email: api-support@monkedelas.com
+- Documentation: https://docs.monkedelas.com/api
+- GitHub: https://github.com/monkedelas/api-examples

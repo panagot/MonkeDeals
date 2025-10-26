@@ -85,7 +85,7 @@ const InvestorDashboard = () => {
           <AlertIcon />
           <AlertTitle>Wallet Not Connected</AlertTitle>
           <AlertDescription>
-            Please connect your wallet to view your investment portfolio.
+            Please connect your wallet to view your purchased deals.
           </AlertDescription>
         </Alert>
       </Box>
@@ -109,10 +109,10 @@ const InvestorDashboard = () => {
         {/* Header */}
         <Box textAlign="center">
           <Heading size="2xl" color="teal.600" mb={4}>
-            Investor Dashboard
+            My Deals Dashboard
           </Heading>
           <Text fontSize="lg" color="gray.600">
-            Track your deal investments and portfolio performance
+            Track your purchased deals and savings
           </Text>
         </Box>
 
@@ -120,7 +120,7 @@ const InvestorDashboard = () => {
         {portfolioData && (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-              <Text fontSize="sm" color="gray.600" mb={2}>Total Investments</Text>
+              <Text fontSize="sm" color="gray.600" mb={2}>Total Purchased</Text>
               <Text fontSize="2xl" fontWeight="bold" color="teal.600">
                 {portfolioData.totalInvestments || 0}
               </Text>
@@ -132,13 +132,13 @@ const InvestorDashboard = () => {
               </Text>
             </Box>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-              <Text fontSize="sm" color="gray.600" mb={2}>Total Value</Text>
+              <Text fontSize="sm" color="gray.600" mb={2}>Total Savings</Text>
               <Text fontSize="2xl" fontWeight="bold" color="green.600">
                 ${portfolioData.totalValue || 0}
               </Text>
             </Box>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-              <Text fontSize="sm" color="gray.600" mb={2}>Returns</Text>
+              <Text fontSize="sm" color="gray.600" mb={2}>Discount Avg</Text>
               <Text fontSize="2xl" fontWeight="bold" color="purple.600">
                 {portfolioData.returns || 0}%
               </Text>
@@ -161,8 +161,8 @@ const InvestorDashboard = () => {
                     <Image src={deal.image} alt={deal.title} borderRadius="md" h="150px" objectFit="cover" />
                     <Heading size="sm">{deal.title}</Heading>
                     <Text fontSize="sm" color="gray.600">{deal.merchant}</Text>
-                    <Text fontSize="sm"><strong>Investment:</strong> ${deal.investment}</Text>
-                    <Text fontSize="sm"><strong>Current Value:</strong> ${deal.currentValue}</Text>
+                    <Text fontSize="sm"><strong>Purchase Price:</strong> ${deal.investment}</Text>
+                    <Text fontSize="sm"><strong>Savings:</strong> ${deal.currentValue}</Text>
                     <Text fontSize="sm"><strong>Status:</strong> {deal.status}</Text>
                     <Button size="sm" colorScheme="teal" onClick={() => handleSellDeal(deal)}>
                       Sell Deal
@@ -177,7 +177,7 @@ const InvestorDashboard = () => {
         {/* Analytics */}
         {analytics && (
           <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-            <Heading size="md" mb={4}>Portfolio Analytics</Heading>
+            <Heading size="md" mb={4}>Deal Analytics</Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
               <Box>
                 <Text fontSize="sm" color="gray.600" mb={2}>Performance Metrics</Text>
@@ -228,9 +228,9 @@ const InvestorDashboard = () => {
             {selectedDeal && (
               <VStack spacing={4}>
                 <Text><strong>Deal:</strong> {selectedDeal.title}</Text>
-                <Text><strong>Current Value:</strong> ${selectedDeal.currentValue}</Text>
-                <Text><strong>Investment:</strong> ${selectedDeal.investment}</Text>
-                <Text><strong>Profit/Loss:</strong> ${selectedDeal.currentValue - selectedDeal.investment}</Text>
+                <Text><strong>Savings:</strong> ${selectedDeal.currentValue}</Text>
+                <Text><strong>Purchase Price:</strong> ${selectedDeal.investment}</Text>
+                <Text><strong>Discount:</strong> ${selectedDeal.currentValue - selectedDeal.investment}</Text>
               </VStack>
             )}
           </ModalBody>

@@ -1,6 +1,8 @@
-# MonkeDeals - Web3 Deal Discovery & Loyalty Platform
+# MonkeDeals - Web3 Deal Discovery & Loyalty Platform 🍌
 
 A decentralized deal discovery platform built on Solana, enabling merchants to mint promotional coupons as NFTs and users to discover, trade, and redeem real-world savings transparently.
+
+**Built for the MonkeDAO Hackathon**
 
 ---
 
@@ -18,6 +20,7 @@ A decentralized deal discovery platform built on Solana, enabling merchants to m
 - **Reputation System:** Earn NFT badges for user loyalty and achievements.
 - **Staking Rewards:** Stake tokens for passive income and rewards.
 - **On-chain Tracking:** Complete transaction history and verification.
+- **🔌 RESTful API for Integrations:** Complete API layer allowing external applications to integrate MonkeDeals functionality. Visit `/api-integration` for full documentation and live testing.
 
 ---
 
@@ -35,8 +38,8 @@ A decentralized deal discovery platform built on Solana, enabling merchants to m
 ## ⚡ Setup Instructions
 1. **Clone the repo:**
    ```bash
-   git clone <your-repo-url>
-   cd invoice-finance-mvp
+   git clone https://github.com/panagot/MonkeDeals.git
+   cd MonkeDeals
    ```
 2. **Install dependencies:**
    ```bash
@@ -128,38 +131,97 @@ A decentralized deal discovery platform built on Solana, enabling merchants to m
 
 ---
 
+## 🔌 API Integration & Developer Resources
+
+### Complete RESTful API
+MonkeDeals provides a **comprehensive RESTful API** for third-party integrations. The API enables external applications to:
+
+- **Access Deal Data**: Query deals, merchants, and market statistics
+- **User Management**: Track portfolios, reputations, and user activity
+- **Real-time Webhooks**: Receive notifications for deal events
+- **Analytics**: Access comprehensive market analytics and insights
+- **Social Integration**: Share deals, track social engagement, and viral campaigns
+
+### 🎯 Access the API Documentation
+1. **Navigate to API Integration**: Click "API Integration" in the main navigation bar
+2. **Interactive Testing**: Use the live API testing panel to test endpoints
+3. **Documentation**: View comprehensive API documentation with examples
+4. **Integration Examples**: See real-world integration examples for:
+   - Travel & Hospitality platforms
+   - Restaurant discovery apps
+   - E-commerce platforms
+   - Events & Entertainment
+   - Fitness & Wellness
+   - Social Media platforms
+
+### Key API Endpoints
+- `GET /api/deals` - Get all available deals
+- `GET /api/deals/{id}` - Get specific deal details
+- `POST /api/deals/{id}/purchase` - Purchase a deal NFT
+- `POST /api/deals/{id}/redeem` - Redeem a purchased deal
+- `GET /api/users/{address}/portfolio` - Get user deal portfolio
+- `GET /api/analytics/overview` - Get market analytics
+- `POST /api/webhooks/register` - Register webhooks for real-time updates
+
+### Developer-Friendly Features
+- ✅ **API Key Authentication** - Secure access control
+- ✅ **Rate Limiting** - Prevents API abuse
+- ✅ **Comprehensive Documentation** - Detailed endpoint documentation
+- ✅ **Multiple SDK Examples** - JavaScript, Python, PHP, Java, Go
+- ✅ **Live Testing Panel** - Test endpoints directly in the UI
+- ✅ **Real-world Examples** - 6+ integration patterns
+- ✅ **Enterprise Features** - Webhooks, analytics, multi-region support
+
+### Integration Use Cases
+- **Travel Platforms**: Integrate hotel and flight deals
+- **Restaurant Apps**: Show restaurant deals by location
+- **E-commerce**: Embed deals into shopping carts
+- **Social Media**: Share deals and track viral campaigns
+- **Event Platforms**: Sell event tickets as NFTs
+- **Fitness Apps**: Offer gym memberships and class passes
+
+Visit `/api-integration` in the application to explore the complete API documentation and start integrating!
+
+---
+
 ## 🗂️ Key Files & Components
-- `src/pages/MintInvoice.js` — Mint Invoice NFT form & live preview
-- `src/pages/Marketplace.js` — Invoice marketplace (filter, sort, buy, modal)
-- `src/pages/BusinessDashboard.js` — Business dashboard (table, bulk actions, notifications)
-- `src/pages/InvestorDashboard.js` — Investor dashboard (summary, table, sell)
+- `src/pages/CreateDeal.js` — Create Deal NFT form & live preview
+- `src/pages/DealMarketplace.js` — Deal marketplace (browse, purchase deals)
+- `src/pages/BusinessDashboard.js` — Business dashboard (manage deals)
+- `src/pages/InvestorDashboard.js` — Investor dashboard (portfolio tracking)
 - `src/pages/Profile.js` — Profile/settings page
 - `src/components/Header.js` — Navbar, wallet, avatar menu
-- `src/pages/InvestorYield.js` — Investor yield & secondary market summary
+- `src/components/DealCard.js` — Deal card component
+- `src/utils/solanaClient.js` — Solana blockchain integration
 - `src/index.js` — App entry, wallet/provider setup
 
 ---
 
 ## ✅ What Has Been Implemented
-- Full business and investor flows (mint, buy, repay, relist)
-- Marketplace with advanced filtering, sorting, and yield display
-- Live invoice NFT preview
-- Responsive, accessible UI with error handling and loaders
-- Profile/settings and notification preferences
-- Investor dashboard and yield summary
-- Robust handling of malformed data and runtime errors
+- NFT Deal Creation with real Solana blockchain minting
+- Deal Marketplace with browsing and purchasing
+- Business Dashboard for managing deals
+- Investor/User Dashboard for tracking purchased deals
+- Real-time NFT minting with transaction verification
+- Wallet integration (Phantom, Solflare, etc.)
+- QR Code redemption system
+- Portfolio tracking
+- Responsive, accessible UI with error handling
+- Smart contract infrastructure (ready for deployment)
+- **🔌 RESTful API for Third-Party Integrations** - Complete API layer with documentation, testing panel, and real-world examples
 
 ---
 
 ## 🔜 What Remains / Future Work
-- **Blockchain integration:** Write/read invoice NFTs and transactions on Solana
-- **Backend/API:** For invoice verification, KYC, and off-chain data
-- **Real payments:** Integrate with stablecoins or payment rails
-- **Advanced notifications:** Email, push, or on-chain reminders
-- **Investor analytics:** IRR, risk scoring, portfolio management
-- **Multi-user support:** Real authentication and user management
+- **Full smart contract deployment:** Deploy Anchor program to mainnet
+- **On-chain deal storage:** Replace demo data with blockchain queries
+- **Metaplex metadata integration:** Full NFT metadata on-chain
+- **Advanced features:** Auctions, Group Deals (currently in demo mode)
+- **Reputation system:** NFT badges and on-chain reputation tracking
+- **API Backend:** Connect API layer to real blockchain data (currently using mock data for demo)
+- **Mobile app:** React Native version for iOS/Android
 - **Audit & security:** Smart contract and frontend audits
-- **Production deployment:** Hosting, CI/CD, environment configs
+- **Mainnet deployment:** Production deployment with full on-chain features
 
 ---
 

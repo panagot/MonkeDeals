@@ -28,8 +28,8 @@ module.exports = function override(config, env) {
   // Ignore problematic @solana/spl-token modules
   config.resolve.alias = {
     ...config.resolve.alias,
-    '@solana/spl-token-metadata': false,
-    '@solana/spl-token-group': false,
+    '@solana/spl-token-metadata': require.resolve('./empty-module-stub.js'),
+    '@solana/spl-token-group': require.resolve('./empty-module-stub.js'),
   };
 
   // Add plugins for polyfills
@@ -42,15 +42,6 @@ module.exports = function override(config, env) {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
-    // Replace problematic @solana/spl-token modules with empty modules
-    new webpack.NormalModuleReplacementPlugin(
-      /^@solana\/spl-token-metadata$/,
-      require.resolve('./node_modules/empty-module/index.js')
-    ),
-    new webpack.NormalModuleReplacementPlugin(
-      /^@solana\/spl-token-group$/,
-      require.resolve('./node_modules/empty-module/index.js')
-    ),
   ];
 
   // Handle window object conflicts with browser extensions

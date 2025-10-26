@@ -1,14 +1,14 @@
 /**
- * DEXGroup API Integration Examples
- * These examples show how third-party applications can integrate with DEXGroup
+ * MonkeDeals API Integration Examples
+ * These examples show how third-party applications can integrate with MonkeDeals
  */
 
-import DEXGroupAPI from './dexgroupAPI.js';
+import MonkeDealsAPI from './dexgroupAPI.js';
 
 // Example 1: Travel Booking App Integration
 class TravelBookingIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('travel-app-api-key');
   }
 
@@ -57,7 +57,7 @@ class TravelBookingIntegration {
 // Example 2: Restaurant Discovery App Integration
 class RestaurantDiscoveryIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('restaurant-app-api-key');
   }
 
@@ -99,7 +99,7 @@ class RestaurantDiscoveryIntegration {
 // Example 3: E-commerce Platform Integration
 class EcommerceIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('ecommerce-api-key');
   }
 
@@ -153,7 +153,7 @@ class EcommerceIntegration {
 // Example 4: Social Media Integration
 class SocialMediaIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('social-media-api-key');
   }
 
@@ -183,8 +183,8 @@ class SocialMediaIntegration {
       title: `Check out this amazing deal: ${deal.title}`,
       description: `${deal.description} - Save ${deal.discount}%!`,
       image: deal.image,
-      url: `https://dexgroup.com/deals/${deal.id}`,
-      hashtags: ['#DEXGroup', '#Deals', '#NFT', '#Solana']
+      url: `https://monkedelas.com/deals/${deal.id}`,
+      hashtags: ['#MonkeDeals', '#Deals', '#NFT', '#Solana']
     };
   }
 
@@ -202,7 +202,7 @@ class SocialMediaIntegration {
 // Example 5: Analytics Dashboard Integration
 class AnalyticsIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('analytics-api-key');
   }
 
@@ -244,7 +244,7 @@ class AnalyticsIntegration {
 // Example 6: Mobile App Integration
 class MobileAppIntegration {
   constructor() {
-    this.api = new DEXGroupAPI();
+    this.api = new MonkeDealsAPI();
     this.api.setApiKey('mobile-app-api-key');
   }
 
