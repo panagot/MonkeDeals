@@ -294,10 +294,9 @@ export const mintDealNFT = async (wallet, dealData) => {
       // Get rent for mint account
       const mintRentExempt = await connection.getMinimumBalanceForRentExemption(82);
       
-      console.log('Batching all transactions into 2 confirmations...');
+      console.log('Batching all transactions into 1 confirmation...');
       
       // STEP 1: Create and initialize mint account (requires partialSign from mintKeypair)
-      // This must be a separate transaction due to partialSign
       const mintTransaction = new Transaction();
       mintTransaction.add(
         SystemProgram.createAccount({
@@ -312,29 +311,15 @@ export const mintDealNFT = async (wallet, dealData) => {
         createInitializeMintInstruction(mintPublicKey, 0, publicKey, publicKey)
       );
       
-      const { blockhash } = await connection.getLatestBlockhash();
-      mintTransaction.recentBlockhash = blockhash;
-      mintTransaction.feePayer = publicKey;
-      
-      mintTransaction.partialSign(mintKeypair);
-      const signedMintTransaction = await wallet.adapter.signTransaction(mintTransaction);
-      const mintSignature = await connection.sendRawTransaction(signedMintTransaction.serialize());
-      await connection.confirmTransaction(mintSignature, 'confirmed');
-      console.log('Transaction 1/2: Mint account created');
-      
-      // STEP 2: Batch ATA creation, minting, and revoke mint authority into ONE transaction
       // Get associated token address
       const associatedTokenAddress = await getAssociatedTokenAddress(mintPublicKey, publicKey);
       
       // Check if associated token account exists
       const associatedTokenAccountInfo = await connection.getAccountInfo(associatedTokenAddress);
       
-      // Create batch transaction with all remaining operations
-      const batchTransaction = new Transaction();
-      
-      // Add ATA creation if needed
+      // Add ATA creation if needed (to first transaction)
       if (!associatedTokenAccountInfo) {
-        batchTransaction.add(
+        mintTransaction.add(
           createAssociatedTokenAccountInstruction(
             publicKey, // payer
             associatedTokenAddress, // ata
@@ -344,30 +329,30 @@ export const mintDealNFT = async (wallet, dealData) => {
         );
       }
       
-      // Add mint to instruction
-      batchTransaction.add(
+      // Add mint to instruction (to first transaction)
+      mintTransaction.add(
         createMintToInstruction(mintPublicKey, associatedTokenAddress, publicKey, 1)
       );
       
-      // Add revoke mint authority instruction
-      batchTransaction.add(
+      // Add revoke mint authority instruction (to first transaction)
+      mintTransaction.add(
         createSetAuthorityInstruction(mintPublicKey, publicKey, AuthorityType.MintTokens, null)
       );
       
-      // Sign and send batch transaction
-      const { blockhash: batchBlockhash } = await connection.getLatestBlockhash();
-      batchTransaction.recentBlockhash = batchBlockhash;
-      batchTransaction.feePayer = publicKey;
+      const { blockhash } = await connection.getLatestBlockhash();
+      mintTransaction.recentBlockhash = blockhash;
+      mintTransaction.feePayer = publicKey;
       
-      const signedBatchTransaction = await wallet.adapter.signTransaction(batchTransaction);
-      const batchSignature = await connection.sendRawTransaction(signedBatchTransaction.serialize());
-      await connection.confirmTransaction(batchSignature, 'confirmed');
-      console.log('Transaction 2/2: ATA, minting, and revoke completed');
+      mintTransaction.partialSign(mintKeypair);
+      const signedMintTransaction = await wallet.adapter.signTransaction(mintTransaction);
+      const mintSignature = await connection.sendRawTransaction(signedMintTransaction.serialize());
+      await connection.confirmTransaction(mintSignature, 'confirmed');
+      console.log('Transaction completed: NFT minted with 1 confirmation!');
       
       // Store metadata
       const nftData = {
         mint: mintPublicKey.toString(),
-        signature: batchSignature,
+        signature: mintSignature,
         metadata: metadata,
         timestamp: new Date().toISOString()
       };
@@ -376,17 +361,17 @@ export const mintDealNFT = async (wallet, dealData) => {
       nftRegistry.push(nftData);
       localStorage.setItem('nftRegistry', JSON.stringify(nftRegistry));
       
-      console.log('✅ NFT minted successfully with only 2 wallet confirmations!');
+      console.log('✅ NFT minted successfully with only 1 wallet confirmation!');
       
       return {
         success: true,
-        message: 'Deal NFT minted (basic SPL Token, no Metaplex metadata)',
+        message: 'Deal NFT minted successfully',
         data: {
-          transactionSignature: batchSignature,
+          transactionSignature: mintSignature,
           nftMetadata: metadata,
           dealId: `deal_${Date.now()}`,
           mintAddress: mintPublicKey.toString(),
-          explorerUrl: `https://explorer.solana.com/tx/${batchSignature}?cluster=devnet`
+          explorerUrl: `https://explorer.solana.com/tx/${mintSignature}?cluster=devnet`
         }
       };
     
