@@ -13,6 +13,9 @@ const DealCard = ({ deal, onPurchase }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { connected } = useWallet();
   const toast = useToast();
+  
+  // Debug: Log deal data to check image URL
+  console.log('DealCard render - deal data:', deal);
 
   const getSavings = (originalPrice, discountPrice) => {
     const original = Number(originalPrice.toString().replace(/[^\d.]/g, ''));
