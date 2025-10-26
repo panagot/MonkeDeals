@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Text, Badge, VStack, HStack, Icon, Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useToast, Progress
+  Box, Text, Badge, VStack, HStack, Icon, Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useToast, Progress, Image
 } from '@chakra-ui/react';
 import { TimeIcon, ViewIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -63,6 +63,19 @@ const DealCard = ({ deal, onPurchase }) => {
         onClick={onOpen}
       >
         <VStack spacing={3} align="start">
+          {/* Deal Image */}
+          {deal.imageUrl && (
+            <Box w="full" h="200px" borderRadius="md" overflow="hidden" bg="gray.100">
+              <Image 
+                src={deal.imageUrl} 
+                alt={deal.dealTitle}
+                objectFit="cover"
+                w="full"
+                h="full"
+              />
+            </Box>
+          )}
+          
           <HStack justify="space-between" w="full">
             <HStack spacing={2}>
               <Icon as={TimeIcon} color="gray.600" />

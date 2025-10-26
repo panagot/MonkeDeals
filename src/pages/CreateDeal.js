@@ -22,6 +22,7 @@ const initialState = {
   location: '',
   dealImage: null,
   dealImageHash: '',
+  dealImageDataUrl: '', // Add data URL for persistent storage
   redemptionType: 'QR',
   merchantId: '',
 };
@@ -54,14 +55,33 @@ const CreateDeal = () => {
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    setForm((prev) => ({ ...prev, dealImage: file, dealImageHash: '' }));
     if (file) {
       setHashing(true);
       const arrayBuffer = await file.arrayBuffer();
       const hashBuffer = await window.crypto.subtle.digest('SHA-256', arrayBuffer);
       const hashHex = arrayBufferToHex(hashBuffer);
-      setForm((prev) => ({ ...prev, dealImageHash: hashHex }));
+      
+      // Convert file to base64 data URL for persistent storage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        setForm((prev) => ({ 
+          ...prev, 
+          dealImage: file, 
+          dealImageHash: hashHex,
+          dealImageDataUrl: dataUrl // Store as base64 data URL
+        }));
+      };
+      reader.readAsDataURL(file);
+      
       setHashing(false);
+    } else {
+      setForm((prev) => ({ 
+        ...prev, 
+        dealImage: null, 
+        dealImageHash: '',
+        dealImageDataUrl: ''
+      }));
     }
   };
 
@@ -159,6 +179,7 @@ const CreateDeal = () => {
             terms: form.terms,
             redemptionType: form.redemptionType,
             dealImageHash: form.dealImageHash,
+            imageUrl: form.dealImageDataUrl || '', // Save as persistent data URL
             nftMintAddress: result.data.mintAddress,
             transactionSignature: result.data.transactionSignature,
             explorerUrl: result.data.explorerUrl,
