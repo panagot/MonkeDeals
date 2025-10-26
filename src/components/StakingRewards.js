@@ -1,37 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Heading, Text, Stack, Button, Badge, HStack, VStack, Icon, useToast, SimpleGrid, Card, CardBody, CardHeader, Progress
 } from '@chakra-ui/react';
 import { StarIcon, TrendingUpIcon, TrendingDownIcon, LockIcon } from '@chakra-ui/icons';
 
-const StakingRewards = ({ userStakes, onStake, onUnstake }) => {
+const StakingRewards = () => {
   const [stakeAmount, setStakeAmount] = useState(0);
+  const [userStakes, setUserStakes] = useState([]);
   const toast = useToast();
+
+  // Load staking data from localStorage
+  useEffect(() => {
+    const stakes = localStorage.getItem('userStakes');
+    if (stakes) {
+      setUserStakes(JSON.parse(stakes));
+    }
+  }, []);
+
+  // Auto-calculate rewards periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUserStakes(prevStakes => {
+        return prevStakes.map(stake => {
+          const hoursPassed = (Date.now() - new Date(stake.stakeTime).getTime()) / (1000 * 60 * 60);
+          const rewardRate = 0.125 / 365 / 24; // 12.5% APY per hour
+          const newRewards = stake.amount * hoursPassed * rewardRate;
+          const newProgress = Math.min(((hoursPassed / stake.lockPeriodHours) * 100), 100);
+          
+          return {
+            ...stake,
+            rewards: stake.amount * rewardRate * hoursPassed,
+            progress: newProgress
+          };
+        });
+      });
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Save stakes to localStorage whenever they change
+  useEffect(() => {
+    if (userStakes.length > 0) {
+      localStorage.setItem('userStakes', JSON.stringify(userStakes));
+    }
+  }, [userStakes]);
 
   const handleStake = () => {
     if (stakeAmount > 0) {
-      if (onStake) {
-        onStake(stakeAmount);
-      }
+      const newStake = {
+        id: Date.now(),
+        amount: stakeAmount,
+        rewards: 0,
+        stakedDate: new Date().toLocaleDateString(),
+        stakeTime: new Date().toISOString(),
+        unlockDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString(), // 30 days
+        lockPeriodHours: 30 * 24,
+        progress: 0
+      };
+      
+      setUserStakes([...userStakes, newStake]);
+      setStakeAmount(0);
+      
       toast({
-        title: 'Staked',
-        description: `Staked ${stakeAmount} tokens successfully`,
+        title: 'Staked Successfully! 🎉',
+        description: `Staked ${stakeAmount} tokens for 30 days`,
         status: 'success',
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
       });
     }
   };
 
   const handleUnstake = (stakeId) => {
-    if (onUnstake) {
-      onUnstake(stakeId);
-    }
+    const stake = userStakes.find(s => s.id === stakeId);
+    if (!stake) return;
+
+    const hoursPassed = (Date.now() - new Date(stake.stakeTime).getTime()) / (1000 * 60 * 60);
+    const rewardRate = 0.125 / 365 / 24;
+    const totalRewards = stake.amount * hoursPassed * rewardRate;
+    
+    setUserStakes(userStakes.filter(s => s.id !== stakeId));
+    
     toast({
-      title: 'Unstaked',
-      description: 'Tokens unstaked successfully',
+      title: 'Unstaked Successfully! 💰',
+      description: `You earned ${totalRewards.toFixed(2)} tokens in rewards`,
       status: 'success',
-      duration: 3000,
+      duration: 5000,
       isClosable: true,
     });
   };
