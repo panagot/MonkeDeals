@@ -50,7 +50,23 @@ const CreateDeal = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setForm((prev) => {
+      const updatedForm = { ...prev, [name]: type === 'checkbox' ? checked : value };
+      
+      // Auto-calculate discount percentage when original price or discount price changes
+      if (name === 'originalPrice' || name === 'discountPrice') {
+        const originalPrice = name === 'originalPrice' ? parseFloat(value) : parseFloat(prev.originalPrice);
+        const discountPrice = name === 'discountPrice' ? parseFloat(value) : parseFloat(prev.discountPrice);
+        
+        if (originalPrice && discountPrice && originalPrice > 0 && discountPrice < originalPrice) {
+          const discountAmount = originalPrice - discountPrice;
+          const discountPercentage = Math.round((discountAmount / originalPrice) * 100);
+          updatedForm.discountPercentage = discountPercentage.toString();
+        }
+      }
+      
+      return updatedForm;
+    });
   };
 
   const handleFileChange = async (e) => {
@@ -425,12 +441,21 @@ const CreateDeal = () => {
                     <HStack spacing={4}>
                       <FormControl isInvalid={errors.discountPercentage}>
                         <FormLabel>Discount Percentage</FormLabel>
-                        <Input type="number" name="discountPercentage" value={form.discountPercentage} onChange={handleChange} placeholder="50" />
+                        <Input 
+                          type="number" 
+                          name="discountPercentage" 
+                          value={form.discountPercentage} 
+                          onChange={handleChange} 
+                          placeholder="Auto-calculated" 
+                          readOnly
+                          bg="gray.50"
+                          cursor="not-allowed"
+                        />
                         <FormHelperText>
                           <Tooltip label={fieldTooltips.discountPercentage} placement="right">
                             <InfoOutlineIcon mr={1} />
                           </Tooltip>
-                          Percentage discount (auto-calculated).
+                          Automatically calculated from prices above.
                         </FormHelperText>
                         <FormErrorMessage>{errors.discountPercentage}</FormErrorMessage>
                       </FormControl>
