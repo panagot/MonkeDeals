@@ -225,6 +225,15 @@ const StakingRewards = () => {
   return (
     <Box>
       <VStack spacing={6} align="stretch">
+        {/* Demo Mode Notice */}
+        <Card bg="blue.50" borderColor="blue.200">
+          <CardBody>
+            <Text fontSize="sm" color="blue.800">
+              <strong>Demo Mode:</strong> Staking is currently simulated for demonstration purposes. Your wallet will connect, but no actual SOL will be staked on-chain.
+            </Text>
+          </CardBody>
+        </Card>
+
         {/* Staking Overview */}
         <Card>
           <CardHeader>
