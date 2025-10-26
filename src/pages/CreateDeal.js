@@ -50,18 +50,38 @@ const CreateDeal = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
+    // Update the form with the new value
     setForm((prev) => {
       const updatedForm = { ...prev, [name]: type === 'checkbox' ? checked : value };
       
       // Auto-calculate discount percentage when original price or discount price changes
       if (name === 'originalPrice' || name === 'discountPrice') {
-        const originalPrice = name === 'originalPrice' ? parseFloat(value) : parseFloat(prev.originalPrice);
-        const discountPrice = name === 'discountPrice' ? parseFloat(value) : parseFloat(prev.discountPrice);
+        // First update the changed field, then calculate
+        let originalPrice, discountPrice;
         
-        if (originalPrice && discountPrice && originalPrice > 0 && discountPrice < originalPrice) {
-          const discountAmount = originalPrice - discountPrice;
-          const discountPercentage = Math.round((discountAmount / originalPrice) * 100);
-          updatedForm.discountPercentage = discountPercentage.toString();
+        if (name === 'originalPrice') {
+          originalPrice = parseFloat(value);
+          discountPrice = parseFloat(prev.discountPrice);
+        } else {
+          originalPrice = parseFloat(prev.originalPrice);
+          discountPrice = parseFloat(value);
+        }
+        
+        // Only calculate if both values are valid numbers
+        if (!isNaN(originalPrice) && !isNaN(discountPrice) && originalPrice > 0 && discountPrice > 0) {
+          if (discountPrice <= originalPrice) {
+            const discountAmount = originalPrice - discountPrice;
+            const discountPercentage = Math.round((discountAmount / originalPrice) * 100);
+            updatedForm.discountPercentage = discountPercentage.toString();
+            console.log('Auto-calculated:', { originalPrice, discountPrice, discountPercentage });
+          } else {
+            // Discount price is higher than original - invalid
+            updatedForm.discountPercentage = '';
+          }
+        } else {
+          // Clear percentage if values are invalid
+          updatedForm.discountPercentage = '';
         }
       }
       
