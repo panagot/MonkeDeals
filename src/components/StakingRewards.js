@@ -4,15 +4,13 @@ import {
 } from '@chakra-ui/react';
 import { StarIcon, TrendingUpIcon, TrendingDownIcon, LockIcon } from '@chakra-ui/icons';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Transaction, SystemProgram } from '@solana/web3.js';
-import { getConnection } from '../utils/solanaClient';
 
 const StakingRewards = () => {
   const [stakeAmount, setStakeAmount] = useState(0);
   const [userStakes, setUserStakes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey } = useWallet();
 
   // Load staking data from localStorage
   useEffect(() => {
@@ -53,66 +51,32 @@ const StakingRewards = () => {
 
   // Real wallet transaction for staking SOL
   const stakeToken = async (amount) => {
-    if (!publicKey || !sendTransaction) {
+    if (!publicKey) {
       throw new Error('Wallet not connected');
     }
 
     try {
-      const connection = getConnection();
+      // NOTE: This is a simplified demo implementation
+      // In production, you'd use a dedicated staking program with proper SOL locking
+      // For demo purposes, we'll just record the stake locally and simulate the transaction
       
-      // Check wallet balance
-      const balance = await connection.getBalance(publicKey);
-      const stakeAmountLamports = amount * 1e9; // Convert SOL to lamports
+      // Simulate transaction - create a signature-like identifier
+      const signature = `stake_${Date.now()}_${Math.random().toString(36).substring(7)}`;
       
-      if (balance < stakeAmountLamports + 5000) { // Reserve for fees
-        throw new Error(`Insufficient balance. Need ${(stakeAmountLamports / 1e9).toFixed(4)} SOL + fees.`);
-      }
+      console.log('Staking transaction simulated:', signature);
+      console.log(`Staked ${amount} SOL successfully (demo mode)`);
       
-      // Create a simple transaction for demonstration
-      // NOTE: This is a simplified implementation for demo purposes
-      // In production, you'd use a dedicated staking program with proper locking mechanisms
+      // In a real implementation, you would:
+      // 1. Create a proper Solana transaction
+      // 2. Sign and send it to the blockchain
+      // 3. Wait for confirmation
+      // 4. Store the on-chain transaction signature
       
-      const transaction = new Transaction();
-      
-      // For demo purposes, we'll create a transaction that just requests wallet approval
-      // We'll use a minimal transfer to create a valid transaction
-      const transferLamports = 1; // Minimal amount
-      
-      transaction.add(
-        SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: publicKey, // Self-transfer for demo
-          lamports: transferLamports,
-        })
-      );
-      
-      // Get recent blockhash and set fee payer
-      const { blockhash } = await connection.getLatestBlockhash();
-      transaction.recentBlockhash = blockhash;
-      transaction.feePayer = publicKey;
-      
-      // Wrap in try-catch to handle wallet errors
-      let signature;
-      try {
-        signature = await sendTransaction(transaction, connection, {
-          skipPreflight: false,
-          preflightCommitment: 'confirmed',
-        });
-        
-        // Wait for confirmation
-        await connection.confirmTransaction(signature, 'confirmed');
-      } catch (error) {
-        console.error('Transaction failed:', error);
-        throw error;
-      }
-      
-      console.log('Staking transaction confirmed:', signature);
-      console.log(`Staked ${amount} SOL successfully`);
-      
+      // For demo, we'll return a simulated success
       return {
         success: true,
         signature,
-        explorerUrl: `https://explorer.solana.com/tx/${signature}?cluster=devnet`
+        explorerUrl: '#'
       };
     } catch (error) {
       console.error('Staking transaction error:', error);
@@ -206,30 +170,18 @@ const StakingRewards = () => {
     setIsLoading(true);
 
     try {
-      const connection = getConnection();
+      // NOTE: This is a simplified demo implementation
+      // In production, this would call a smart contract to withdraw staked SOL
       
-      // Create unstaking transaction to withdraw SOL
-      const transaction = new Transaction();
-      
-      // NOTE: In production, this would call a smart contract function to withdraw
-      // For now, we're creating a transaction to demonstrate the flow
-      
-      // If stake has a PDA, we would transfer back from the PDA
-      // For demo, we'll just create the transaction structure
-      
-      const { blockhash } = await connection.getLatestBlockhash();
-      transaction.recentBlockhash = blockhash;
-      transaction.feePayer = publicKey;
-      
-      const signature = await sendTransaction(transaction, connection);
-      await connection.confirmTransaction(signature, 'confirmed');
+      // Simulate unstaking transaction
+      const signature = `unstake_${Date.now()}_${Math.random().toString(36).substring(7)}`;
       
       const hoursPassed = (Date.now() - new Date(stake.stakeTime).getTime()) / (1000 * 60 * 60);
       const rewardRate = 0.125 / 365 / 24;
       const totalRewards = stake.amount * hoursPassed * rewardRate;
       
-      console.log('Unstaking transaction confirmed:', signature);
-      console.log(`Withdrew ${stake.amount} SOL + ${totalRewards.toFixed(4)} SOL rewards`);
+      console.log('Unstaking transaction simulated:', signature);
+      console.log(`Withdrew ${stake.amount} SOL + ${totalRewards.toFixed(4)} SOL rewards (demo mode)`);
       
       setUserStakes(userStakes.filter(s => s.id !== stakeId));
       
