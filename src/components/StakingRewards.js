@@ -74,9 +74,9 @@ const StakingRewards = () => {
       
       const transaction = new Transaction();
       
-      // For demo purposes, we'll do a minimal transfer of a small fee amount
-      // In production, this would lock SOL in a staking program
-      const transferLamports = 5000; // 0.000005 SOL - just for demo transaction
+      // For demo purposes, we'll create a transaction that just requests wallet approval
+      // We'll use a minimal transfer to create a valid transaction
+      const transferLamports = 1; // Minimal amount
       
       transaction.add(
         SystemProgram.transfer({
@@ -86,14 +86,25 @@ const StakingRewards = () => {
         })
       );
       
-      // Get recent blockhash
+      // Get recent blockhash and set fee payer
       const { blockhash } = await connection.getLatestBlockhash();
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = publicKey;
       
-      // Send transaction to wallet for signing
-      const signature = await sendTransaction(transaction, connection);
-      await connection.confirmTransaction(signature, 'confirmed');
+      // Wrap in try-catch to handle wallet errors
+      let signature;
+      try {
+        signature = await sendTransaction(transaction, connection, {
+          skipPreflight: false,
+          preflightCommitment: 'confirmed',
+        });
+        
+        // Wait for confirmation
+        await connection.confirmTransaction(signature, 'confirmed');
+      } catch (error) {
+        console.error('Transaction failed:', error);
+        throw error;
+      }
       
       console.log('Staking transaction confirmed:', signature);
       console.log(`Staked ${amount} SOL successfully`);
