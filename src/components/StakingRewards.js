@@ -234,7 +234,7 @@ const StakingRewards = () => {
     
     return {
       totalStaked,
-      totalRewards: totalRewards.toFixed(4),
+      totalRewards,
       apy,
       dailyRewards: (totalStaked * apy) / 365 / 100
     };
