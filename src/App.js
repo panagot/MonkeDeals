@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Box, Alert, AlertIcon } from '@chakra-ui/react';
 import Header from './components/Header';
 import Home from './pages/Home';
 import CreateDeal from './pages/CreateDeal';
@@ -20,12 +19,6 @@ function App() {
   return (
     <Router>
       <Header />
-      <Alert status="info" variant="subtle" fontSize="sm" textAlign="center">
-        <AlertIcon />
-        <Box flex="1" textAlign="center">
-          <strong>DEMO MODE:</strong> NFT minting uses real Solana blockchain transactions. Advanced features (auctions, group deals, reputation) use simulated data for demonstration purposes.
-        </Box>
-      </Alert>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mint" element={<CreateDeal />} />
