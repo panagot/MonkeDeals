@@ -483,8 +483,8 @@ const CreateDeal = () => {
                         <FormLabel>Currency</FormLabel>
                         <Select name="currency" value={form.currency} onChange={handleChange}>
                           <option value="USDC">USDC</option>
+                          <option value="USDT">USDT</option>
                           <option value="SOL">SOL</option>
-                          <option value="USD">USD</option>
                         </Select>
                       </FormControl>
                     </HStack>
